@@ -7,8 +7,7 @@ TOOLS="${BASE}/tools/bin"
 mkdir ${SOURCE} && cd ${SOURCE}
 
 echo '◆◆' Start download cmake
-git clone https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz -O cmake-3.25.1.tar.gz
-tar zxvf cmake-3.25.1.tar.gz -C cmake && rm cmake-3.25.1.tar.gz
+git clone https://github.com/Kitware/CMake.git -b v3.25.1 --depth 1
 
 echo '◆◆' Start download pkg-config
 git clone --depth 1 https://gitlab.freedesktop.org/pkg-config/pkg-config.git pkg-config
@@ -41,6 +40,9 @@ git clone --depth 1 https://code.videolan.org/videolan/x264.git
 echo '◆◆' Start download x265
 git clone https://bitbucket.org/multicoreware/x265_git.git x265 -b Release_3.4
 
+echo '◆◆' Start download fdk-aac
+git clone --depth 1 https://github.com/mstorsjo/fdk-aac.git -b v2.0.2 --depth 1
+
 echo '◆◆' Start download vpx
 
 
@@ -51,12 +53,15 @@ echo '◆◆' Start download enca
 echo '◆◆' Start download freetype
 
 echo '◆◆' Start download fribidi
+git clone https://github.com/fribidi/fribidi.git -b v1.0.12 --depth 1 
 
 echo '◆◆' Start download ffontconfig
 
 echo '◆◆' Start download harfbuzz
+git clone --depth 1 https://github.com/harfbuzz/harfbuzz.git -b 6.0.0
 
 echo '◆◆' Start download libass
+git clone --depth 1 https://github.com/libass/libass.git -b 0.17.0
 
 echo '◆◆' Start download vidstab
 
