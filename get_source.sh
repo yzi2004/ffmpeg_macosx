@@ -1,4 +1,7 @@
-#! bin/bash
+#!/bin/bash
+
+# turn the detached message off
+git config --global advice.detachedHead false
 
 BASE="/Volumes/dev/"
 SOURCE="${BASE}/sources"
@@ -7,7 +10,7 @@ TOOLS="${BASE}/tools/bin"
 mkdir ${SOURCE} && cd ${SOURCE}
 
 echo '◆◆' Start download cmake
-git clone https://github.com/Kitware/CMake.git -b v3.25.1 --depth 1
+git clone https://github.com/Kitware/CMake.git cmake -b v3.25.1 --depth 1
 
 echo '◆◆' Start download pkg-config
 git clone --depth 1 https://gitlab.freedesktop.org/pkg-config/pkg-config.git pkg-config
