@@ -2,11 +2,71 @@
 
 BASE="/Volumes/dev/"
 SOURCE="${BASE}/sources"
-TOOLS="${BASE}/bin"
+TOOLS="${BASE}/tools/bin"
 
-mkdir ${SOURCE}
-mkdir ${TOOLS}
-export PATH=${TOOLS}/bin:$PATH
+mkdir ${SOURCE} && cd ${SOURCE}
 
-export CC=clang 
-export PKG_CONFIG_PATH="${SOURCE}/lib/pkgconfig"
+echo '◆◆' Start download cmake
+git clone https://github.com/Kitware/CMake/releases/download/v3.25.1/cmake-3.25.1.tar.gz -O cmake-3.25.1.tar.gz
+tar zxvf cmake-3.25.1.tar.gz -C cmake && rm cmake-3.25.1.tar.gz
+
+echo '◆◆' Start download pkg-config
+git clone --depth 1 https://gitlab.freedesktop.org/pkg-config/pkg-config.git pkg-config
+
+echo '◆◆' Start download nasm
+wget https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/nasm-2.16.01.tar.bz2 -O nasm-2.16.01.tar.bz2
+tar zxvf cmake-3.25.1.tar.gz && mv cmake-3.25.1 cmake && rm cmake-3.25.1.tar.gz
+
+echo '◆◆' Start download yasm
+wget http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz -O yasm-1.3.0.tar.gz
+
+echo '◆◆' Start download zlib
+wget https://zlib.net/zlib-1.2.13.tar.gz -O zlib-1.2.13.tar.gz
+
+echo '◆◆' Start download expat
+git clone https://github.com/libexpat/libexpat.git -b R_2_5_0 --depth 1
+
+echo '◆◆' Start download libiconv
+wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz -O libiconv-1.17.tar.gz
+
+echo '◆◆' Start download gettext
+wget https://ftp.gnu.org/gnu/gettext/gettext-0.21.1.tar.xz -O gettext-0.21.1.tar.xz
+
+echo '◆◆' Start download mp3lame
+wget https://sourceforge.net/projects/lame/files/lame/3.100/lame-3.100.tar.gz/download  -O lame-3.100.tar.gz
+
+echo '◆◆' Start download x264
+git clone --depth 1 https://code.videolan.org/videolan/x264.git
+
+echo '◆◆' Start download x265
+git clone https://bitbucket.org/multicoreware/x265_git.git x265 -b Release_3.4
+
+echo '◆◆' Start download vpx
+
+
+echo '◆◆' Start download libpng
+
+echo '◆◆' Start download enca
+
+echo '◆◆' Start download freetype
+
+echo '◆◆' Start download fribidi
+
+echo '◆◆' Start download ffontconfig
+
+echo '◆◆' Start download harfbuzz
+
+echo '◆◆' Start download libass
+
+echo '◆◆' Start download vidstab
+
+echo '◆◆' Start download snappy
+
+echo '◆◆' Start download openjpeg
+
+echo '◆◆' Start download aom
+
+echo '◆◆' Start download libwebp
+
+echo '◆◆' Start download zimg
+
