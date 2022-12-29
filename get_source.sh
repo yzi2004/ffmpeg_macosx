@@ -145,12 +145,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo '◆◆' Start download freetype
-curl -# https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz > freetype-2.12.1.tar.gz
-if [ $? -ne 0 ]; then
-    exit
-fi
-
-tar zxvf freetype-2.12.1.tar.gz && mv freetype-2.12.1 freetype && rm freetype-2.12.1.tar.gz
+git clone --depth 1 https://gitlab.freedesktop.org/freetype/freetype.git -b VER-2-12-1
 if [ $? -ne 0 ]; then
     exit
 fi
