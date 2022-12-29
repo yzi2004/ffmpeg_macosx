@@ -142,27 +142,29 @@ fi
 ########################
 # mp3lame compile      #
 ########################
-mkdir -p $BUILD/mp3lame && cd $BUILD/mp3lame
-$SOURCE/mp3lame/configure --prefix=$PREBUILT \
-    --disable-shared \
-    --enable-static || exit 1
-make -j 8 || exit 1
-make install
+if [ ! -e "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" ]; then
+    mkdir -p $BUILD/mp3lame && cd $BUILD/mp3lame
+    $SOURCE/mp3lame/configure --prefix=$PREBUILT \
+        --disable-shared \
+        --enable-static || exit 1
+    make -j 8 || exit 1
+    make install
 
-cat > "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" << EOF
-prefix=${PREBUILT}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-includedir=\${prefix}/include
+    cat > "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" << EOF
+    prefix=${PREBUILT}
+    exec_prefix=\${prefix}
+    libdir=\${exec_prefix}/lib
+    includedir=\${prefix}/include
 
-Name: libmp3lame
-Description: lame mp3 encoder library
-Version: 3.100
+    Name: libmp3lame
+    Description: lame mp3 encoder library
+    Version: 3.100
 
-Requires:
-Libs: -L\${libdir} -lmp3lame
-Cflags: -I\${includedir}
-EOF
+    Requires:
+    Libs: -L\${libdir} -lmp3lame
+    Cflags: -I\${includedir}
+    EOF
+fi
 
 ########################
 # x264 compile         #
@@ -263,29 +265,32 @@ fi
 ########################
 # libiconv compile     #
 ########################
+if [ ! -e "${PREBUILT}/lib/pkgconfig/libiconv.pc" ]; then
+    mkdir -p $BUILD/libiconv && cd $BUILD/libiconv
+    $SOURCE/libiconv/configure --prefix=${PREBUILT} \
+        --disable-shared \
+        --enable-static || exit 1
 
-mkdir -p $BUILD/libiconv && cd $BUILD/libiconv
-$SOURCE/libiconv/configure --prefix=${PREBUILT} \
-    --disable-shared \
-    --enable-static || exit 1
-    
-make -j 8 || exit 1 
-make install
+    make -j 8 || exit 1 
+    make install
 
-cat > "${PREBUILT}/lib/pkgconfig/libiconv.pc" << EOF
-prefix=${PREBUILT}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-includedir=\${prefix}/include
+    cat > "${PREBUILT}/lib/pkgconfig/libiconv.pc" << EOF
+    prefix=${PREBUILT}
+    exec_prefix=\${prefix}
+    libdir=\${exec_prefix}/lib
+    includedir=\${prefix}/include
 
-Name: libiconv
-Description: Character set conversion library
-Version: 1.17
+    Name: libiconv
+    Description: Character set conversion library
+    Version: 1.17
 
-Requires:
-Libs: -L\${libdir} -liconv -lcharset
-Cflags: -I\${includedir}
-EOF
+    Requires:
+    Libs: -L\${libdir} -liconv -lcharset
+    Cflags: -I\${includedir}
+    EOF
+fi   
+   
+   
 
 ########################
 # enca compile     #
