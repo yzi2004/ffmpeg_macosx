@@ -35,7 +35,7 @@ make -j 8 && make install
 # nasm compile         #
 ########################
 mkdir -p $BUILD/gettext && cd $BUILD/gettext
-$SOURCE//configure --prefix=$TOOLS \
+$SOURCE/gettext/configure --prefix=$TOOLS \
     --disable-dependency-tracking \
     --disable-silent-rules \
     --disable-debug \
@@ -59,7 +59,7 @@ make -j 8 && make install
 ########################
 export LDFLAGS="-framework Foundation -framework Cocoa"
 mkdir -p $BUILD/pkg-config && cd $BUILD/pkg-config
-$SOURCE/pkg-config/configure --prefix=${TOOLS} \
+$SOURCE/pkg-config/augogen --prefix=${TOOLS} \
      --with-pc-path=${PREBUILT}/lib/pkgconfig \
      --with-internal-glib \
      --disable-shared \
@@ -90,7 +90,7 @@ make -j 8 && make install
 # mp3lame compile      #
 ########################
 mkdir -p $BUILD/mp3lame && cd $BUILD/mp3lame
-$SOURCES/mp3lame/configure --prefix=$PREBUILT \
+$SOURCE/mp3lame/configure --prefix=$PREBUILT \
     --disable-shared \
     --enable-static
 make -j 8 && make install
@@ -99,8 +99,7 @@ make -j 8 && make install
 # x264 compile         #
 ########################
 mkdir -p $BUILD/x264 && cd $BUILD/x264
-$SOURCES/x264/configure --prefix=$PREBUILT \
-    --disable-shared \
+$SOURCE/x264/configure --prefix=$PREBUILT \
     --enable-static \
     --enable-pic
 make -j 8 && make install && make install-lib-static
@@ -116,7 +115,7 @@ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DENABLE_SHARED=NO \
       -DEXPORT_C_API=NO \
       -DENABLE_CLI=OFF \
-      $SOURCES/x265/source
+      $SOURCE/x265/source
 make -j 8 
 mv libx265.a libx265_main12.a
 make clean-generated && rm CMakeCache.txt
@@ -127,7 +126,7 @@ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DENABLE_SHARED=NO \
       -DEXPORT_C_API=NO \
       -DENABLE_CLI=OFF \
-      $SOURCES/x265/source
+      $SOURCE/x265/source
 make clean && make -j 8 
 
 mv libx265.a libx265_main10.a
@@ -140,7 +139,7 @@ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DLINKED_10BIT=ON \
       -DENABLE_SHARED=OFF \
       -DENABLE_CLI=OFF \
-      $SOURCES/x265/source
+      $SOURCE/x265/source
 make clean && make -j 8 
 
 mv libx265.a libx265_main.a
@@ -152,7 +151,7 @@ make install
 ########################
 
 mkdir -p $BUILD/libvpx && cd $BUILD/libvpx
-$SOURCES/libvpx/configure --prefix=${PREBUILT}
+$SOURCE/libvpx/configure --prefix=${PREBUILT}
     --enable-vp8 \
     --enable-postproc \
     --enable-vp9-postproc \
@@ -171,9 +170,14 @@ make -j 8 && make install
 ########################
 
 mkdir -p $BUILD/expat && cd $BUILD/expat
-$SOURCES/expat/configure --prefix=${PREBUILT} \
-    --disable-shared \
-    --enable-static
+cmake -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+    -DEXPAT_BUILD_DOCS=OFF \
+    -DEXPAT_BUILD_EXAMPLES=OFF \
+    -DEXPAT_BUILD_PKGCONFIG=ON \
+    -DEXPAT_BUILD_TESTS=OFF \
+    -DEXPAT_BUILD_TOOLS=OFF \
+    -DEXPAT_SHARED_LIBS=OFF \
+    $SOURCE/libexpat/expat
     
 make -j 8 && make install
 
@@ -182,7 +186,7 @@ make -j 8 && make install
 ########################
 
 mkdir -p $BUILD/libiconv && cd $BUILD/libiconv
-$SOURCES/libiconv/configure --prefix=${PREBUILT} \
+$SOURCE/libiconv/configure --prefix=${PREBUILT} \
     --disable-shared \
     --enable-static
     
@@ -193,7 +197,7 @@ make -j 8 && make install
 ########################
 
 mkdir -p $BUILD/enca && cd $BUILD/enca
-$SOURCES/enca/configure --prefix=${PREBUILT} \
+$SOURCE/enca/configure --prefix=${PREBUILT} \
     --disable-shared \
     --enable-static
     
