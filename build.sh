@@ -200,7 +200,7 @@ make install
 ########################
 
 mkdir -p $BUILD/libvpx && cd $BUILD/libvpx
-$SOURCE/libvpx/configure --prefix=${PREBUILT}
+$SOURCE/libvpx/configure --prefix=${PREBUILT} \
     --enable-vp8 \
     --enable-postproc \
     --enable-vp9-postproc \
@@ -296,36 +296,36 @@ make install
 ########################
 # freetype + harfbuzz  #
 ########################
-mkdir -p $BUILD/freetype && cd $BUILD/freetype
-meson setup --prefix=${PREBUILT} \
-     --buildtype=release \
-     --default-library=static \
-     -Dharfbuzz=disabled \
-     -Dbrotli=disabled \
-     --wrap-mode=nofallback \
-     $SOURCE/freetype  || exit 1
-     
-ninja || exit 1
-meson install 
-
-mkdir -p $BUILD/harfbuzz &&  cd $BUILD/harfbuzz
-meson setup --prefix=${PREBUILT} \
-    --buildtype=release \
-    --default-library=static \
-    -Dfreetype=enabled \
-    -Dgdi=enabled \
-    -Dtests=disabled \
-    -Ddocs=disabled \
-    --wrap-mode=nofallback \
-    $SOURCE/harfbuzz  || exit 1
-ninja || exit 1
-meson install 
-
-mkdir -p $BUILD/freetype_with_harfbuzz &&  cd $BUILD/freetype_with_harfbuzz
-meson setup --prefix=${PREBUILT} \
-     --buildtype=release \
-     --default-library=static \
-     --wrap-mode=nofallback \
-     $SOURCES_PATH/freetype  || exit 1
-ninja || exit 1
-meson install 
+# mkdir -p $BUILD/freetype && cd $BUILD/freetype
+# meson setup --prefix=${PREBUILT} \
+#      --buildtype=release \
+#      --default-library=static \
+#      -Dharfbuzz=disabled \
+#      -Dbrotli=disabled \
+#      --wrap-mode=nofallback \
+#      $SOURCE/freetype  || exit 1
+#      
+# ninja || exit 1
+# meson install 
+# 
+# mkdir -p $BUILD/harfbuzz &&  cd $BUILD/harfbuzz
+# meson setup --prefix=${PREBUILT} \
+#     --buildtype=release \
+#     --default-library=static \
+#     -Dfreetype=enabled \
+#     -Dgdi=enabled \
+#     -Dtests=disabled \
+#     -Ddocs=disabled \
+#     --wrap-mode=nofallback \
+#     $SOURCE/harfbuzz  || exit 1
+# ninja || exit 1
+# meson install 
+# 
+# mkdir -p $BUILD/freetype_with_harfbuzz &&  cd $BUILD/freetype_with_harfbuzz
+# meson setup --prefix=${PREBUILT} \
+#      --buildtype=release \
+#      --default-library=static \
+#      --wrap-mode=nofallback \
+#      $SOURCES_PATH/freetype  || exit 1
+# ninja || exit 1
+# meson install 
