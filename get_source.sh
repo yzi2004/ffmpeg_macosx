@@ -3,7 +3,8 @@
 # turn the detached message off
 git config --global advice.detachedHead false
 
-BASE="/Volumes/dev/ffmpeg"
+#BASE="/Volumes/dev/ffmpeg"
+BASE="$HOME/dev/ffmpeg"
 SOURCE="${BASE}/sources"
 TOOLS="${BASE}/tools/bin"
 
@@ -81,7 +82,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar zxvf gettext-0.21.1.tar.xz && mv gettext-0.21.1 gettext && rm gettext-0.21.1.tar.xz
+tar Jxvf gettext-0.21.1.tar.xz && mv gettext-0.21.1 gettext && rm gettext-0.21.1.tar.xz
 if [ $? -ne 0 ]; then
     exit
 fi
