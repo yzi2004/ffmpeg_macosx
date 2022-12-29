@@ -268,13 +268,15 @@ fi
 ########################
 # fdk-aac compile     #
 ########################
-mkdir -p $BUILD/fdk-aac && cd $BUILD/fdk-aac
-cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
-     -DBUILD_SHARED_LIBS=off \
-     $SOURCE/fdk-aac || exit 1
-    
-make -j 8 || exit 1
-make install
+if [ ! -e "${PREBUILT}/lib/pkgconfig/fdk-aac.pc" ]; then
+    mkdir -p $BUILD/fdk-aac && cd $BUILD/fdk-aac
+    cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
+         -DBUILD_SHARED_LIBS=off \
+         $SOURCE/fdk-aac || exit 1
+
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # brotli compile          #
