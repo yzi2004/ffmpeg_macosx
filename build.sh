@@ -6,7 +6,7 @@ BUILD="${BASE}/build"
 TOOLS="${BASE}/tools"
 PREBUILT="${BASE}/prebuilt"
 
-export PATH=${TOOLS}:$PATH
+export PATH=${TOOLS}/bin:$PATH
 export CC=clang 
 export PKG_CONFIG_PATH="${PREBUILT}/lib/pkgconfig"
 
@@ -23,8 +23,8 @@ make -j 8 && make install
 ########################
 # nasm compile         #
 ########################
-mkdir -p $BUILD/nasm && cd $BUILD/nasm
-$SOURCE/nasm/configure --prefix=$TOOLS
+cd $SOURCE/nasm
+./configure --prefix=$TOOLS
 make -j 8 && make install
 
 ########################
@@ -32,7 +32,7 @@ make -j 8 && make install
 ########################
 export LDFLAGS="-framework Foundation -framework Cocoa"
 mkdir -p $BUILD/pkg-config && cd $BUILD/pkg-config
-$SOURCES/pkg-config/configure --prefix=${TOOLS} \
+$SOURCE/pkg-config/configure --prefix=${TOOLS} \
      --with-pc-path=${PREBUILT}/lib/pkgconfig \
      --with-internal-glib \
      --disable-shared \
@@ -45,7 +45,7 @@ unset LDFLAGS
 # zlib compile         #
 ########################
 mkdir -p $BUILD/zlib && cd $BUILD/zlib
-$SOURCES/zlib/configure --prefix=$PREBUILT
+$SOURCE/zlib/configure --prefix=$PREBUILT
 make -j 8 && make install
 
 rm ${PREBUILT}/lib/libz.so*
@@ -55,7 +55,7 @@ rm ${PREBUILT}/lib/libz.*
 # cmake compile        #
 ########################
 mkdir -p $BUILD/cmake && cd $BUILD/cmake
-$SOURCES/cmake/configure --prefix=$TOOLS \
+$SOURCE/cmake/configure --prefix=$TOOLS \
     --system-zlib
 make -j 8 && make install
 
