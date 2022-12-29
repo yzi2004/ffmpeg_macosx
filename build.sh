@@ -13,6 +13,28 @@ export PKG_CONFIG_PATH="${PREBUILT}/lib/pkgconfig"
 rm -rf $BUILD
 rm -rf $PREBUILT
 
+########################
+# autoconf compile     #
+########################
+mkdir -p $BUILD/autoconf && cd $BUILD/autoconf
+$SOURCE/autoconf/configure --prefix=$TOOLS
+make -j 8 && make install
+
+########################
+# automake compile     #
+########################
+mkdir -p $BUILD/automake && cd $BUILD/automake
+$SOURCE/automake/configure --prefix=$TOOLS
+make -j 8 && make install
+
+########################
+# libtool compile     #
+########################
+mkdir -p $BUILD/libtool && cd $BUILD/libtool
+$SOURCE/automake/configure --prefix=$TOOLS \
+    --program-prefix=g
+make -j 8 && make install
+
 export LIBTOOL=`which glibtool`
 export LIBTOOLIZE=`which glibtoolize`
 
@@ -26,10 +48,9 @@ make -j 8 && make install
 ########################
 # nasm compile         #
 ########################
-cd $SOURCE/nasm
+mkdir -p $BUILD/nasm && cd $BUILD/nasm
 ./configure --prefix=$TOOLS
 make -j 8 && make install
-
 
 ########################
 # nasm compile         #
@@ -107,7 +128,6 @@ make -j 8 && make install && make install-lib-static
 ########################
 # x265 compile         #
 ########################
-
 mkdir -p $BUILD/x265 && cd $BUILD/x265
 cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DHIGH_BIT_DEPTH=ON \
@@ -203,4 +223,71 @@ $SOURCE/enca/configure --prefix=${PREBUILT} \
     
 make -j 8 && make install
 
+########################
+# fdk-aac compile     #
+########################
+mkdir -p $BUILD/fdk-aac && cd $BUILD/fdk-aac
+cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
+     -DBUILD_SHARED_LIBS=off \
+     $SOURCE/fdk-aac 
+    
+make -j 8 && make install
+
+########################
+# brotli compile          #
+########################
+mkdir -p $BUILD/brotli && cd $BUILD/brotli
+export LDFLAGS="-static"
+cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
+      -DBUILD_TESTING=off \
+     $SOURCE/brotli
+make -j 8 && make install
+unset LDFLAGS
+
+########################
+# aom compile          #
+########################
+mkdir -p $BUILD/aom && cd $BUILD/aom
+cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
+      -DENABLE_TESTS=0 \
+      -DLIBTYPE=STATIC \
+      -DAOM_TARGET_CPU=ARM64 \
+      -DCONFIG_RUNTIME_CPU_DETECT=0 \
+     $SOURCE/aom
+
+make -j 8 && make install
+
+########################
+# freetype + harfbuzz  #
+########################
+mkdir -p $BUILD/freetype && cd $BUILD/freetype
+meson setup --prefix=${PREBUILT} \
+     --buildtype=release \
+     --default-library=static \
+     -Dharfbuzz=disabled \
+     -Dbrotli=disabled \
+     --wrap-mode=nofallback \
+     $SOURCE/freetype 
+     
+ninja && meson install 
+
+mkdir -p $BUILD/harfbuzz &&  cd $BUILD/harfbuzz
+meson setup --prefix=${PREBUILT} \
+    --buildtype=release \
+    --default-library=static \
+    -Dfreetype=enabled \
+    -Dgdi=enabled \
+    -Dtests=disabled \
+    -Ddocs=disabled \
+    --wrap-mode=nofallback \
+    $SOURCE/harfbuzz 
+ninja && meson install 
+
+mkdir -p $BUILD/freetype_with_harfbuzz &&  cd $BUILD/freetype_with_harfbuzz
+meson setup --prefix=${PREBUILT} \
+     --buildtype=release \
+     --default-library=static \
+     --wrap-mode=nofallback \
+     $SOURCES_PATH/freetype 
+ninja && meson install 
 
