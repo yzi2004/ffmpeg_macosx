@@ -6,11 +6,42 @@ git config --global advice.detachedHead false
 BASE="/Volumes/dev/ffmpeg"
 SOURCE="${BASE}/sources"
 
-
 if [ -d $SOURCE ]; then
     rm -rf ${SOURCE}  
 fi
 mkdir -p ${SOURCE} && cd ${SOURCE}
+
+echo '◆◆' Start download autoconf
+curl -# https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.xz > autoconf-2.71.tar.xz
+if [ $? -ne 0 ]; then
+    exit
+fi
+tar Jxf autoconf-2.71.tar.xz && mv autoconf-2.71 autoconf && rm autoconf-2.71.tar.xz
+if [ $? -ne 0 ]; then
+    exit
+fi
+
+echo '◆◆' Start download automake
+curl  -# https://ftp.gnu.org/gnu/automake/automake-1.16.5.tar.xz > automake-1.16.5.tar.xz
+if [ $? -ne 0 ]; then
+    exit
+fi
+
+tar Jxf automake-1.16.5.tar.xz && mv automake-1.16.5 automake && rm automake-1.16.5.tar.xz
+if [ $? -ne 0 ]; then
+    exit
+fi
+
+echo '◆◆' Start download libtool
+curl -# https://mirrors.ocf.berkeley.edu/gnu/libtool/libtool-2.4.7.tar.xz > automake-1.16.5.tar.xz
+if [ $? -ne 0 ]; then
+    exit
+fi
+
+tar Jxf libtool-2.4.7.tar.xz && mv libtool-2.4.7 libtool && rm libtool-2.4.7.tar.xz
+if [ $? -ne 0 ]; then
+    exit
+fi
 
 echo '◆◆' Start download cmake
 git clone https://github.com/Kitware/CMake.git cmake -b v3.25.1 --depth 1
@@ -138,6 +169,12 @@ if [ $? -ne 0 ]; then
 fi
 
 tar zxf enca-1.19.tar.gz && mv enca-1.19 enca && rm enca-1.19.tar.gz
+if [ $? -ne 0 ]; then
+    exit
+fi
+
+echo '◆◆' Start download brotli 
+git clone --depth 1 https://github.com/google/brotli -b v1.0.9
 if [ $? -ne 0 ]; then
     exit
 fi
