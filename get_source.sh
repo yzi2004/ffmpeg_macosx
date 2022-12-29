@@ -11,7 +11,7 @@ rm -rf ${SOURCE}
 mkdir ${SOURCE} && cd ${SOURCE}
 
 echo '◆◆' Start download cmake
-git clone https://github.com/Kitware/CMakeaa.git cmake -b v3.25.1 --depth 1
+git clone https://github.com/Kitware/CMake.git cmake -b v3.25.1 --depth 1
 
 if [ $? -ne 0 ]; then
     exit
