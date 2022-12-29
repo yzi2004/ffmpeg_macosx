@@ -39,7 +39,7 @@ fi
 ########################
 if [ ! -e "${TOOLS}/bin/glibtool" ]; then
     mkdir -p $BUILD/libtool && cd $BUILD/libtool
-    $SOURCE/automake/configure --prefix=$TOOLS \
+    $SOURCE/libtool/configure --prefix=$TOOLS \
         --program-prefix=g || exit 1
     make -j 8 || exit 1
     make install
