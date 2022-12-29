@@ -16,86 +16,99 @@ rm -rf $PREBUILT
 ########################
 # autoconf compile     #
 ########################
-mkdir -p $BUILD/autoconf && cd $BUILD/autoconf
-$SOURCE/autoconf/configure --prefix=$TOOLS || exit 1
-make -j 8  || exit 1
-make install
+if [ ! -e "${TOOLS}/bin/autoconf" ]; then
+    mkdir -p $BUILD/autoconf && cd $BUILD/autoconf
+    $SOURCE/autoconf/configure --prefix=$TOOLS || exit 1
+    make -j 8  || exit 1
+    make install
+fi
+
 
 ########################
 # automake compile     #
 ########################
-mkdir -p $BUILD/automake && cd $BUILD/automake
-$SOURCE/automake/configure --prefix=$TOOLS || exit 1
-make -j 8 || exit 1
-make install
+if [ ! -e "${TOOLS}/bin/automake" ]; then
+    mkdir -p $BUILD/automake && cd $BUILD/automake
+    $SOURCE/automake/configure --prefix=$TOOLS || exit 1
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # libtool compile     #
 ########################
-mkdir -p $BUILD/libtool && cd $BUILD/libtool
-$SOURCE/automake/configure --prefix=$TOOLS \
-    --program-prefix=g || exit 1
-make -j 8 || exit 1
-make install
-
+if [ ! -e "${TOOLS}/bin/glibtool" ]; then
+    mkdir -p $BUILD/libtool && cd $BUILD/libtool
+    $SOURCE/automake/configure --prefix=$TOOLS \
+        --program-prefix=g || exit 1
+    make -j 8 || exit 1
+    make install
+fi
 export LIBTOOL=`which glibtool`
 export LIBTOOLIZE=`which glibtoolize`
 
 ########################
 # yasm compile         #
 ########################
-mkdir -p $BUILD/yasm && cd $BUILD/yasm
-$SOURCE/yasm/configure --prefix=$TOOLS || exit 1
-make -j 8 || exit 1
-make install
+if [ ! -e "${TOOLS}/bin/yasm" ]; then
+    mkdir -p $BUILD/yasm && cd $BUILD/yasm
+    $SOURCE/yasm/configure --prefix=$TOOLS || exit 1
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # nasm compile         #
 ########################
-mkdir -p $BUILD/nasm && cd $BUILD/nasm
-$SOURCE/nasm/configure --prefix=$TOOLS || exit 1
-make -j 8 || exit 1
-make install
+if [ ! -e "${TOOLS}/bin/nasm" ]; then
+    mkdir -p $BUILD/nasm && cd $BUILD/nasm
+    $SOURCE/nasm/configure --prefix=$TOOLS || exit 1
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
-# nasm compile         #
+# gettext compile         #
 ########################
-mkdir -p $BUILD/gettext && cd $BUILD/gettext
-$SOURCE/gettext/configure --prefix=$TOOLS \
-    --disable-dependency-tracking \
-    --disable-silent-rules \
-    --disable-debug \
-    --disable-shared \
-    --enable-static \
-    --with-included-gettext \
-    --with-included-glib \
-    --with-includedlibcroco \
-    --with-included-libunistring \
-    --with-emacs \
-    --disable-java \
-    --disable-csharp \
-    --without-git \
-    --without-cvs \
-    --without-xz || exit 1
+if [ ! -e "${TOOLS}/bin/gettext" ]; then
+    mkdir -p $BUILD/gettext && cd $BUILD/gettext
+    $SOURCE/gettext/configure --prefix=$TOOLS \
+        --disable-dependency-tracking \
+        --disable-silent-rules \
+        --disable-debug \
+        --disable-shared \
+        --enable-static \
+        --with-included-gettext \
+        --with-included-glib \
+        --with-includedlibcroco \
+        --with-included-libunistring \
+        --with-emacs \
+        --disable-java \
+        --disable-csharp \
+        --without-git \
+        --without-cvs \
+        --without-xz || exit 1
 
-make -j 8 || exit 1
-make install
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # pkg-config compile   #
 ########################
-export LDFLAGS="-framework Foundation -framework Cocoa"
-mkdir -p $BUILD/pkg-config && cd $BUILD/pkg-config
-$SOURCE/pkg-config/augogen --prefix=${TOOLS} \
-     --with-pc-path=${PREBUILT}/lib/pkgconfig \
-     --with-internal-glib \
-     --disable-shared \
-     --enable-static || exit 1
-     
+if [ ! -e "${TOOLS}/bin/pkg-config" ]; then
+    export LDFLAGS="-framework Foundation -framework Cocoa"
+    mkdir -p $BUILD/pkg-config && cd $BUILD/pkg-config
+    $SOURCE/pkg-config/autogen.sh --prefix=${TOOLS} \
+         --with-pc-path=${PREBUILT}/lib/pkgconfig \
+         --with-internal-glib \
+         --disable-shared \
+         --enable-static || exit 1
 
-make -j 8 || exit 1
-make install
-unset LDFLAGS
+    make -j 8 || exit 1
+    make install
+    unset LDFLAGS
+fi
 
 ########################
 # zlib compile         #
@@ -111,11 +124,13 @@ rm ${PREBUILT}/lib/libz.*
 ########################
 # cmake compile        #
 ########################
-mkdir -p $BUILD/cmake && cd $BUILD/cmake
-$SOURCE/cmake/configure --prefix=$TOOLS \
-    --system-zlib || exit 1
-make -j 8 || exit 1
-make install
+if [ ! -e "${TOOLS}/bin/cmake" ]; then
+    mkdir -p $BUILD/cmake && cd $BUILD/cmake
+    $SOURCE/cmake/configure --prefix=$TOOLS \
+        --system-zlib || exit 1
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # mp3lame compile      #
