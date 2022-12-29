@@ -113,13 +113,15 @@ fi
 ########################
 # zlib compile         #
 ########################
-mkdir -p $BUILD/zlib && cd $BUILD/zlib
-$SOURCE/zlib/configure --prefix=$PREBUILT || exit 1
-make -j 8 || exit 1
-make install
+if [ ! -e "${PREBUILT}/lib/pkgconfig/zlib.pc" ]; then
+    mkdir -p $BUILD/zlib && cd $BUILD/zlib
+    $SOURCE/zlib/configure --prefix=$PREBUILT || exit 1
+    make -j 8 || exit 1
+    make install
 
-rm ${PREBUILT}/lib/libz.so*
-rm ${PREBUILT}/lib/libz.*
+    rm ${PREBUILT}/lib/libz.so*
+    rm ${PREBUILT}/lib/libz.*
+fi
 
 ########################
 # cmake compile        #
@@ -145,92 +147,98 @@ make install
 ########################
 # x264 compile         #
 ########################
-mkdir -p $BUILD/x264 && cd $BUILD/x264
-$SOURCE/x264/configure --prefix=$PREBUILT \
-    --enable-static \
-    --enable-pic || exit 1
-make -j 8 || exit 1
-make install && make install-lib-static
+if [ ! -e "${PREBUILT}/lib/pkgconfig/x264.pc" ]; then
+    mkdir -p $BUILD/x264 && cd $BUILD/x264
+    $SOURCE/x264/configure --prefix=$PREBUILT \
+        --enable-static \
+        --enable-pic || exit 1
+    make -j 8 || exit 1
+    make install && make install-lib-static
+fi
 
 ########################
 # x265 compile         #
 ########################
-mkdir -p $BUILD/x265 && cd $BUILD/x265
-cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
-      -DHIGH_BIT_DEPTH=ON \
-      -DMAIN12=ON \
-      -DENABLE_SHARED=NO \
-      -DEXPORT_C_API=NO \
-      -DENABLE_CLI=OFF \
-      $SOURCE/x265/source || exit 1
-make -j 8  || exit 1
-mv libx265.a libx265_main12.a
-make clean-generated && rm CMakeCache.txt
+if [ ! -e "${PREBUILT}/lib/pkgconfig/x265.pc" ]; then
+    mkdir -p $BUILD/x265 && cd $BUILD/x265
+    cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+          -DHIGH_BIT_DEPTH=ON \
+          -DMAIN12=ON \
+          -DENABLE_SHARED=NO \
+          -DEXPORT_C_API=NO \
+          -DENABLE_CLI=OFF \
+          $SOURCE/x265/source || exit 1
+    make -j 8  || exit 1
+    mv libx265.a libx265_main12.a
+    make clean-generated && rm CMakeCache.txt
 
-cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
-      -DMAIN10=ON \
-      -DHIGH_BIT_DEPTH=ON \
-      -DENABLE_SHARED=NO \
-      -DEXPORT_C_API=NO \
-      -DENABLE_CLI=OFF \
-      $SOURCE/x265/source || exit 1
-make clean 
-make -j 8  || exit 1
+    cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+          -DMAIN10=ON \
+          -DHIGH_BIT_DEPTH=ON \
+          -DENABLE_SHARED=NO \
+          -DEXPORT_C_API=NO \
+          -DENABLE_CLI=OFF \
+          $SOURCE/x265/source || exit 1
+    make clean 
+    make -j 8  || exit 1
 
-mv libx265.a libx265_main10.a
-make clean-generated && rm CMakeCache.txt
+    mv libx265.a libx265_main10.a
+    make clean-generated && rm CMakeCache.txt
 
-cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
-      -DEXTRA_LIB="x265_main10.a;x265_main12.a" \
-      -DEXTRA_LINK_FLAGS=-L. \
-      -DLINKED_12BIT=ON \
-      -DLINKED_10BIT=ON \
-      -DENABLE_SHARED=OFF \
-      -DENABLE_CLI=OFF \
-      $SOURCE/x265/source || exit 1
-make clean 
-make -j 8 || exit 1
+    cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+          -DEXTRA_LIB="x265_main10.a;x265_main12.a" \
+          -DEXTRA_LINK_FLAGS=-L. \
+          -DLINKED_12BIT=ON \
+          -DLINKED_10BIT=ON \
+          -DENABLE_SHARED=OFF \
+          -DENABLE_CLI=OFF \
+          $SOURCE/x265/source || exit 1
+    make clean 
+    make -j 8 || exit 1
 
-mv libx265.a libx265_main.a
-libtool -static -o libx265.a libx265_main.a libx265_main10.a libx265_main12.a 2>/dev/null
-make install
+    mv libx265.a libx265_main.a
+    libtool -static -o libx265.a libx265_main.a libx265_main10.a libx265_main12.a 2>/dev/null
+    make install
+fi
 
 ########################
 # vpx compile          #
 ########################
+if [ ! -e "${PREBUILT}/lib/pkgconfig/vpx.pc" ]; then
+    mkdir -p $BUILD/libvpx && cd $BUILD/libvpx
+    $SOURCE/libvpx/configure --prefix=${PREBUILT} \
+        --enable-vp8 \
+        --enable-postproc \
+        --enable-vp9-postproc \
+        --enable-vp9-highbitdepth \
+        --disable-examples \
+        --disable-docs \
+        --enable-multi-res-encoding \
+        --disable-unit-tests \
+        --enable-pic \
+        --disable-shared || exit 1
 
-mkdir -p $BUILD/libvpx && cd $BUILD/libvpx
-$SOURCE/libvpx/configure --prefix=${PREBUILT} \
-    --enable-vp8 \
-    --enable-postproc \
-    --enable-vp9-postproc \
-    --enable-vp9-highbitdepth \
-    --disable-examples \
-    --disable-docs \
-    --enable-multi-res-encoding \
-    --disable-unit-tests \
-    --enable-pic \
-    --disable-shared || exit 1
-    
-make -j 8 || exit 1
-make install
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # EXPAT compile        #
 ########################
+if [ ! -e "${PREBUILT}/lib/pkgconfig/expat.pc" ]; then
+    mkdir -p $BUILD/expat && cd $BUILD/expat
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+        -DEXPAT_BUILD_DOCS=OFF \
+        -DEXPAT_BUILD_EXAMPLES=OFF \
+        -DEXPAT_BUILD_PKGCONFIG=ON \
+        -DEXPAT_BUILD_TESTS=OFF \
+        -DEXPAT_BUILD_TOOLS=OFF \
+        -DEXPAT_SHARED_LIBS=OFF \
+        $SOURCE/libexpat/expat || exit 1
 
-mkdir -p $BUILD/expat && cd $BUILD/expat
-cmake -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
-    -DEXPAT_BUILD_DOCS=OFF \
-    -DEXPAT_BUILD_EXAMPLES=OFF \
-    -DEXPAT_BUILD_PKGCONFIG=ON \
-    -DEXPAT_BUILD_TESTS=OFF \
-    -DEXPAT_BUILD_TOOLS=OFF \
-    -DEXPAT_SHARED_LIBS=OFF \
-    $SOURCE/libexpat/expat || exit 1
-    
-make -j 8 || exit 1
-make install
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # libiconv compile     #
@@ -270,14 +278,14 @@ make install
 ########################
 # brotli compile          #
 ########################
-mkdir -p $BUILD/brotli && cd $BUILD/brotli
-export LDFLAGS="-static"
-cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
-      -DBUILD_TESTING=off \
-     $SOURCE/brotli || exit 1
-make -j 8 || exit 1
-make install
-unset LDFLAGS
+# mkdir -p $BUILD/brotli && cd $BUILD/brotli
+# export LDFLAGS="-static"
+# cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
+#      -DBUILD_TESTING=off \
+#     $SOURCE/brotli || exit 1
+# make -j 8 || exit 1
+# make install
+# unset LDFLAGS
 
 ########################
 # aom compile          #
