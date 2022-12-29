@@ -25,7 +25,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo '◆◆' Start download nasm
-curl -# https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/nasm-2.16.01.tar.bz2 > nasm-2.16.01.tar.bz2 
+curl -# https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.01.tar.bz2 > nasm-2.16.01.tar.bz2 
 if [ $? -ne 0 ]; then
     exit
 fi
