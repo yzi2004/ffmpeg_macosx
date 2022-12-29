@@ -33,7 +33,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo '◆◆' Start download libtool
-curl -# https://mirrors.ocf.berkeley.edu/gnu/libtool/libtool-2.4.7.tar.xz > automake-1.16.5.tar.xz
+curl -# https://mirrors.ocf.berkeley.edu/gnu/libtool/libtool-2.4.7.tar.xz > libtool-2.4.7.tar.xz
 if [ $? -ne 0 ]; then
     exit
 fi
