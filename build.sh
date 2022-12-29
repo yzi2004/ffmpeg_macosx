@@ -53,7 +53,7 @@ make install
 # nasm compile         #
 ########################
 mkdir -p $BUILD/nasm && cd $BUILD/nasm
-./configure --prefix=$TOOLS || exit 1
+$SOURCE/nasm/configure --prefix=$TOOLS || exit 1
 make -j 8 || exit 1
 make install
 
