@@ -272,6 +272,21 @@ $SOURCE/libiconv/configure --prefix=${PREBUILT} \
 make -j 8 || exit 1 
 make install
 
+cat > "${PREBUILT}/lib/pkgconfig/libiconv.pc" << EOF
+prefix=${PREBUILT}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: libiconv
+Description: Character set conversion library
+Version: 1.17
+
+Requires:
+Libs: -L\${libdir} -liconv -lcharset
+Cflags: -I\${includedir}
+EOF
+
 ########################
 # enca compile     #
 ########################
