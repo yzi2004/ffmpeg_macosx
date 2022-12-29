@@ -27,6 +27,30 @@ cd $SOURCE/nasm
 ./configure --prefix=$TOOLS
 make -j 8 && make install
 
+
+########################
+# nasm compile         #
+########################
+mkdir -p $BUILD/gettext && cd $BUILD/gettext
+$SOURCE//configure --prefix=$TOOLS \
+    --disable-dependency-tracking \
+    --disable-silent-rules \
+    --disable-debug \
+    --disable-shared \
+    --enable-static \
+    --with-included-gettext \
+    --with-included-glib \
+    --with-includedlibcroco \
+    --with-included-libunistring \
+    --with-emacs \
+    --disable-java \
+    --disable-csharp \
+    --without-git \
+    --without-cvs \
+    --without-xz
+
+make -j 8 && make install
+
 ########################
 # pkg-config compile   #
 ########################
