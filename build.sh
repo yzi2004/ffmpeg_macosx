@@ -17,23 +17,26 @@ rm -rf $PREBUILT
 # autoconf compile     #
 ########################
 mkdir -p $BUILD/autoconf && cd $BUILD/autoconf
-$SOURCE/autoconf/configure --prefix=$TOOLS
-make -j 8 && make install
+$SOURCE/autoconf/configure --prefix=$TOOLS || exit 1
+make -j 8  || exit 1
+make install
 
 ########################
 # automake compile     #
 ########################
 mkdir -p $BUILD/automake && cd $BUILD/automake
-$SOURCE/automake/configure --prefix=$TOOLS
-make -j 8 && make install
+$SOURCE/automake/configure --prefix=$TOOLS || exit 1
+make -j 8 || exit 1
+make install
 
 ########################
 # libtool compile     #
 ########################
 mkdir -p $BUILD/libtool && cd $BUILD/libtool
 $SOURCE/automake/configure --prefix=$TOOLS \
-    --program-prefix=g
-make -j 8 && make install
+    --program-prefix=g || exit 1
+make -j 8 || exit 1
+make install
 
 export LIBTOOL=`which glibtool`
 export LIBTOOLIZE=`which glibtoolize`
@@ -42,15 +45,17 @@ export LIBTOOLIZE=`which glibtoolize`
 # yasm compile         #
 ########################
 mkdir -p $BUILD/yasm && cd $BUILD/yasm
-$SOURCE/yasm/configure --prefix=$TOOLS
-make -j 8 && make install
+$SOURCE/yasm/configure --prefix=$TOOLS || exit 1
+make -j 8 || exit 1
+make install
 
 ########################
 # nasm compile         #
 ########################
 mkdir -p $BUILD/nasm && cd $BUILD/nasm
-./configure --prefix=$TOOLS
-make -j 8 && make install
+./configure --prefix=$TOOLS || exit 1
+make -j 8 || exit 1
+make install
 
 ########################
 # nasm compile         #
@@ -71,9 +76,10 @@ $SOURCE/gettext/configure --prefix=$TOOLS \
     --disable-csharp \
     --without-git \
     --without-cvs \
-    --without-xz
+    --without-xz || exit 1
 
-make -j 8 && make install
+make -j 8 || exit 1
+make install
 
 ########################
 # pkg-config compile   #
@@ -84,17 +90,20 @@ $SOURCE/pkg-config/augogen --prefix=${TOOLS} \
      --with-pc-path=${PREBUILT}/lib/pkgconfig \
      --with-internal-glib \
      --disable-shared \
-     --enable-static
+     --enable-static || exit 1
+     
 
-make -j 8 && make install
+make -j 8 || exit 1
+make install
 unset LDFLAGS
 
 ########################
 # zlib compile         #
 ########################
 mkdir -p $BUILD/zlib && cd $BUILD/zlib
-$SOURCE/zlib/configure --prefix=$PREBUILT
-make -j 8 && make install
+$SOURCE/zlib/configure --prefix=$PREBUILT || exit 1
+make -j 8 || exit 1
+make install
 
 rm ${PREBUILT}/lib/libz.so*
 rm ${PREBUILT}/lib/libz.*
@@ -104,8 +113,9 @@ rm ${PREBUILT}/lib/libz.*
 ########################
 mkdir -p $BUILD/cmake && cd $BUILD/cmake
 $SOURCE/cmake/configure --prefix=$TOOLS \
-    --system-zlib
-make -j 8 && make install
+    --system-zlib || exit 1
+make -j 8 || exit 1
+make install
 
 ########################
 # mp3lame compile      #
@@ -113,8 +123,9 @@ make -j 8 && make install
 mkdir -p $BUILD/mp3lame && cd $BUILD/mp3lame
 $SOURCE/mp3lame/configure --prefix=$PREBUILT \
     --disable-shared \
-    --enable-static
-make -j 8 && make install
+    --enable-static || exit 1
+make -j 8 || exit 1
+make install
 
 ########################
 # x264 compile         #
@@ -122,8 +133,9 @@ make -j 8 && make install
 mkdir -p $BUILD/x264 && cd $BUILD/x264
 $SOURCE/x264/configure --prefix=$PREBUILT \
     --enable-static \
-    --enable-pic
-make -j 8 && make install && make install-lib-static
+    --enable-pic || exit 1
+make -j 8 || exit 1
+make install && make install-lib-static
 
 ########################
 # x265 compile         #
@@ -135,8 +147,8 @@ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DENABLE_SHARED=NO \
       -DEXPORT_C_API=NO \
       -DENABLE_CLI=OFF \
-      $SOURCE/x265/source
-make -j 8 
+      $SOURCE/x265/source || exit 1
+make -j 8  || exit 1
 mv libx265.a libx265_main12.a
 make clean-generated && rm CMakeCache.txt
 
@@ -146,8 +158,9 @@ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DENABLE_SHARED=NO \
       -DEXPORT_C_API=NO \
       -DENABLE_CLI=OFF \
-      $SOURCE/x265/source
-make clean && make -j 8 
+      $SOURCE/x265/source || exit 1
+make clean 
+make -j 8  || exit 1
 
 mv libx265.a libx265_main10.a
 make clean-generated && rm CMakeCache.txt
@@ -159,8 +172,9 @@ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DLINKED_10BIT=ON \
       -DENABLE_SHARED=OFF \
       -DENABLE_CLI=OFF \
-      $SOURCE/x265/source
-make clean && make -j 8 
+      $SOURCE/x265/source || exit 1
+make clean 
+make -j 8 || exit 1
 
 mv libx265.a libx265_main.a
 libtool -static -o libx265.a libx265_main.a libx265_main10.a libx265_main12.a 2>/dev/null
@@ -181,9 +195,10 @@ $SOURCE/libvpx/configure --prefix=${PREBUILT}
     --enable-multi-res-encoding \
     --disable-unit-tests \
     --enable-pic \
-    --disable-shared
+    --disable-shared || exit 1
     
-make -j 8 && make install
+make -j 8 || exit 1
+make install
 
 ########################
 # EXPAT compile        #
@@ -197,9 +212,10 @@ cmake -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
     -DEXPAT_BUILD_TESTS=OFF \
     -DEXPAT_BUILD_TOOLS=OFF \
     -DEXPAT_SHARED_LIBS=OFF \
-    $SOURCE/libexpat/expat
+    $SOURCE/libexpat/expat || exit 1
     
-make -j 8 && make install
+make -j 8 || exit 1
+make install
 
 ########################
 # libiconv compile     #
@@ -208,9 +224,10 @@ make -j 8 && make install
 mkdir -p $BUILD/libiconv && cd $BUILD/libiconv
 $SOURCE/libiconv/configure --prefix=${PREBUILT} \
     --disable-shared \
-    --enable-static
+    --enable-static || exit 1
     
-make -j 8 && make install
+make -j 8 || exit 1 
+make install
 
 ########################
 # enca compile     #
@@ -219,9 +236,10 @@ make -j 8 && make install
 mkdir -p $BUILD/enca && cd $BUILD/enca
 $SOURCE/enca/configure --prefix=${PREBUILT} \
     --disable-shared \
-    --enable-static
+    --enable-static || exit 1
     
-make -j 8 && make install
+make -j 8 || exit 1
+make install
 
 ########################
 # fdk-aac compile     #
@@ -229,9 +247,10 @@ make -j 8 && make install
 mkdir -p $BUILD/fdk-aac && cd $BUILD/fdk-aac
 cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
      -DBUILD_SHARED_LIBS=off \
-     $SOURCE/fdk-aac 
+     $SOURCE/fdk-aac || exit 1
     
-make -j 8 && make install
+make -j 8 || exit 1
+make install
 
 ########################
 # brotli compile          #
@@ -240,8 +259,9 @@ mkdir -p $BUILD/brotli && cd $BUILD/brotli
 export LDFLAGS="-static"
 cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
       -DBUILD_TESTING=off \
-     $SOURCE/brotli
-make -j 8 && make install
+     $SOURCE/brotli || exit 1
+make -j 8 || exit 1
+make install
 unset LDFLAGS
 
 ########################
@@ -253,9 +273,10 @@ cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
       -DLIBTYPE=STATIC \
       -DAOM_TARGET_CPU=ARM64 \
       -DCONFIG_RUNTIME_CPU_DETECT=0 \
-     $SOURCE/aom
+     $SOURCE/aom || exit 1
 
-make -j 8 && make install
+make -j 8 || exit 1
+make install
 
 ########################
 # freetype + harfbuzz  #
@@ -267,9 +288,10 @@ meson setup --prefix=${PREBUILT} \
      -Dharfbuzz=disabled \
      -Dbrotli=disabled \
      --wrap-mode=nofallback \
-     $SOURCE/freetype 
+     $SOURCE/freetype  || exit 1
      
-ninja && meson install 
+ninja || exit 1
+meson install 
 
 mkdir -p $BUILD/harfbuzz &&  cd $BUILD/harfbuzz
 meson setup --prefix=${PREBUILT} \
@@ -280,14 +302,15 @@ meson setup --prefix=${PREBUILT} \
     -Dtests=disabled \
     -Ddocs=disabled \
     --wrap-mode=nofallback \
-    $SOURCE/harfbuzz 
-ninja && meson install 
+    $SOURCE/harfbuzz  || exit 1
+ninja || exit 1
+meson install 
 
 mkdir -p $BUILD/freetype_with_harfbuzz &&  cd $BUILD/freetype_with_harfbuzz
 meson setup --prefix=${PREBUILT} \
      --buildtype=release \
      --default-library=static \
      --wrap-mode=nofallback \
-     $SOURCES_PATH/freetype 
-ninja && meson install 
-
+     $SOURCES_PATH/freetype  || exit 1
+ninja || exit 1
+meson install 
