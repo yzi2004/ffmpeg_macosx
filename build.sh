@@ -255,14 +255,15 @@ make install
 ########################
 # enca compile     #
 ########################
+if [ ! -e "${PREBUILT}/lib/pkgconfig/enca.pc" ]; then
+    mkdir -p $BUILD/enca && cd $BUILD/enca
+    $SOURCE/enca/configure --prefix=${PREBUILT} \
+        --disable-shared \
+        --enable-static || exit 1
 
-mkdir -p $BUILD/enca && cd $BUILD/enca
-$SOURCE/enca/configure --prefix=${PREBUILT} \
-    --disable-shared \
-    --enable-static || exit 1
-    
-make -j 8 || exit 1
-make install
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # fdk-aac compile     #
@@ -290,16 +291,18 @@ make install
 ########################
 # aom compile          #
 ########################
-mkdir -p $BUILD/aom && cd $BUILD/aom
-cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
-      -DENABLE_TESTS=0 \
-      -DLIBTYPE=STATIC \
-      -DAOM_TARGET_CPU=ARM64 \
-      -DCONFIG_RUNTIME_CPU_DETECT=0 \
-     $SOURCE/aom || exit 1
+if [ ! -e "${PREBUILT}/lib/pkgconfig/aom.pc" ]; then
+    mkdir -p $BUILD/aom && cd $BUILD/aom
+    cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
+          -DENABLE_TESTS=0 \
+          -DLIBTYPE=STATIC \
+          -DAOM_TARGET_CPU=ARM64 \
+          -DCONFIG_RUNTIME_CPU_DETECT=0 \
+         $SOURCE/aom || exit 1
 
-make -j 8 || exit 1
-make install
+    make -j 8 || exit 1
+    make install
+fi
 
 ########################
 # freetype + harfbuzz  #
