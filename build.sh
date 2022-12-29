@@ -1,4 +1,4 @@
-#! bin/bash
+#!/bin/bash
 
 BASE="/Volumes/dev/ffmpeg"
 SOURCE="${BASE}/sources"
