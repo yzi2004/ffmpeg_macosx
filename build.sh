@@ -13,6 +13,9 @@ export PKG_CONFIG_PATH="${PREBUILT}/lib/pkgconfig"
 rm -rf $BUILD
 rm -rf $PREBUILT
 
+export LIBTOOL=`which glibtool`
+export LIBTOOLIZE=`which glibtoolize`
+
 ########################
 # yasm compile         #
 ########################
