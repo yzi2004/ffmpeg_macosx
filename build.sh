@@ -11,7 +11,7 @@ export CC=clang
 export PKG_CONFIG_PATH="${PREBUILT}/lib/pkgconfig"
 
 rm -rf $BUILD
-rm -rf $PREBUILT
+# rm -rf $PREBUILT
 
 ########################
 # autoconf compile     #
