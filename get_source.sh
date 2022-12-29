@@ -11,10 +11,10 @@ rm -rf ${SOURCE}
 mkdir ${SOURCE} && cd ${SOURCE}
 
 echo '◆◆' Start download cmake
-git clone https://github.com/Kitware/CMake.git cmake -b v3.25.1 --depth 1
+git clone https://github.com/Kitware/CMakeaa.git cmake -b v3.25.1 --depth 1
 
 if [ $? -ne 0 ]; then
-    return
+    exit
 fi
 
 echo '◆◆' Start download pkg-config
@@ -190,7 +190,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo '◆◆' Start download snappy
-git clone --deptn 1 https://github.com/google/snappy.git -b 1.1.9
+git clone --depth 1 https://github.com/google/snappy.git -b 1.1.9
 if [ $? -ne 0 ]; then
     return
 fi
