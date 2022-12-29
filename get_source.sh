@@ -173,12 +173,6 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-echo '◆◆' Start download brotli 
-git clone --depth 1 https://github.com/google/brotli -b v1.0.9
-if [ $? -ne 0 ]; then
-    exit
-fi
-
 echo '◆◆' Start download freetype
 git clone --depth 1 https://gitlab.freedesktop.org/freetype/freetype.git -b VER-2-12-1
 if [ $? -ne 0 ]; then
