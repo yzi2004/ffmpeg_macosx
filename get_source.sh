@@ -3,7 +3,7 @@
 # turn the detached message off
 git config --global advice.detachedHead false
 
-BASE="/Volumes/dev/"
+BASE="/Volumes/dev/ffmpeg"
 SOURCE="${BASE}/sources"
 TOOLS="${BASE}/tools/bin"
 
