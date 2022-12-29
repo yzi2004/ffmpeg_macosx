@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar jxvf nasm-2.16.01.tar.bz2 && mv nasm-2.16.01 nasm && rm nasm-2.16.01.tar.bz2
+tar jxf nasm-2.16.01.tar.bz2 && mv nasm-2.16.01 nasm && rm nasm-2.16.01.tar.bz2
 if [ $? -ne 0 ]; then
     exit
 fi
@@ -43,7 +43,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar zxvf yasm-1.3.0.tar.gz && mv yasm-1.3.0 yasm && rm yasm-1.3.0.tar.gz
+tar zxf yasm-1.3.0.tar.gz && mv yasm-1.3.0 yasm && rm yasm-1.3.0.tar.gz
 if [ $? -ne 0 ]; then
     exit
 fi
@@ -54,7 +54,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar zxvf zlib-1.2.13.tar.gz && mv zlib-1.2.13 zlib && rm zlib-1.2.13.tar.gz
+tar zxf zlib-1.2.13.tar.gz && mv zlib-1.2.13 zlib && rm zlib-1.2.13.tar.gz
 if [ $? -ne 0 ]; then
     exit
 fi
@@ -71,7 +71,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar zxvf libiconv-1.17.tar.gz && mv libiconv-1.17 libiconv && rm libiconv-1.17.tar.gz
+tar zxf libiconv-1.17.tar.gz && mv libiconv-1.17 libiconv && rm libiconv-1.17.tar.gz
 if [ $? -ne 0 ]; then
     exit
 fi
@@ -82,7 +82,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar Jxvf gettext-0.21.1.tar.xz && mv gettext-0.21.1 gettext && rm gettext-0.21.1.tar.xz
+tar Jxf gettext-0.21.1.tar.xz && mv gettext-0.21.1 gettext && rm gettext-0.21.1.tar.xz
 if [ $? -ne 0 ]; then
     exit
 fi
@@ -93,7 +93,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar zxvf lame-3.100.tar.gz && mv lame-3.100 mp3lame && rm lame-3.100.tar.gz
+tar zxf lame-3.100.tar.gz && mv lame-3.100 mp3lame && rm lame-3.100.tar.gz
 if [ $? -ne 0 ]; then
     exit
 fi
@@ -128,7 +128,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar zxvf libpng-1.6.39.tar.gz && mv libpng-1.6.39 libpng && rm libpng-1.6.39.tar.gz
+tar zxf libpng-1.6.39.tar.gz && mv libpng-1.6.39 libpng && rm libpng-1.6.39.tar.gz
 if [ $? -ne 0 ]; then
     exit
 fi
@@ -139,7 +139,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar zxvf enca-1.19.tar.gz && mv enca-1.19 enca && rm enca-1.19.tar.gz
+tar zxf enca-1.19.tar.gz && mv enca-1.19 enca && rm enca-1.19.tar.gz
 if [ $? -ne 0 ]; then
     exit
 fi
@@ -162,7 +162,7 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-tar zxvf fontconfig-2.14.1.tar.gz && mv fontconfig-2.14.1 fontconfig && rm fontconfig-2.14.1.tar.gz
+tar zxf fontconfig-2.14.1.tar.gz && mv fontconfig-2.14.1 fontconfig && rm fontconfig-2.14.1.tar.gz
 if [ $? -ne 0 ]; then
     exit
 fi
