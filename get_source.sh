@@ -5,13 +5,12 @@ git config --global advice.detachedHead false
 
 BASE="/Volumes/dev/ffmpeg"
 SOURCE="${BASE}/sources"
-TOOLS="${BASE}/tools/bin"
 
-if [ -d ${SOURCE} ]; then
-    rm -rf ${SOURCE}  && mkdir -p ${SOURCE}
+
+if [ -d $SOURCE ]; then
+    rm -rf ${SOURCE}  
 fi
-
-cd ${SOURCE}
+mkdir -p ${SOURCE} && cd ${SOURCE}
 
 echo '◆◆' Start download cmake
 git clone https://github.com/Kitware/CMake.git cmake -b v3.25.1 --depth 1
