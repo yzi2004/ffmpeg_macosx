@@ -11,11 +11,11 @@ export CC=clang
 export PKG_CONFIG_PATH="${PREBUILT}/lib/pkgconfig"
 
 rm -rf $BUILD
-if [ $1 =="rebuid*" ]; then
+if [ $1 == "rebuid*" ]; then
     rm -rf $PREBUILT
 fi
 
-if [ $1 =="rebuid_all*" ]; then
+if [ $1 == "rebuid_all*" ]; then
     rm -rf $TOOLS
 fi
 
