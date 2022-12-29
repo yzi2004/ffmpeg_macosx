@@ -29,7 +29,6 @@ if [ ! -e "${TOOLS}/bin/autoconf" ]; then
     make install
 fi
 
-
 ########################
 # automake compile     #
 ########################
@@ -149,6 +148,21 @@ $SOURCE/mp3lame/configure --prefix=$PREBUILT \
     --enable-static || exit 1
 make -j 8 || exit 1
 make install
+
+cat > "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" << EOF
+prefix=${PREBUILT}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: libmp3lame
+Description: lame mp3 encoder library
+Version: 3.100
+
+Requires:
+Libs: -L\${libdir} -lmp3lame
+Cflags: -I\${includedir}
+EOF
 
 ########################
 # x264 compile         #
