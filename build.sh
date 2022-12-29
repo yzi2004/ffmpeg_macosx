@@ -17,14 +17,14 @@ rm -rf $PREBUILT
 # yasm compile         #
 ########################
 mkdir -p $BUILD/yasm && cd $BUILD/yasm
-$SOURCES/yasm/configure --prefix=$TOOLS
+$SOURCE/yasm/configure --prefix=$TOOLS
 make -j 8 && make install
 
 ########################
 # nasm compile         #
 ########################
 mkdir -p $BUILD/nasm && cd $BUILD/nasm
-$SOURCES/nasm/configure --prefix=$TOOLS
+$SOURCE/nasm/configure --prefix=$TOOLS
 make -j 8 && make install
 
 ########################
