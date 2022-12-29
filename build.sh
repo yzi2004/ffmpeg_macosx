@@ -319,18 +319,6 @@ if [ ! -e "${PREBUILT}/lib/pkgconfig/fdk-aac.pc" ]; then
 fi
 
 ########################
-# brotli compile          #
-########################
-# mkdir -p $BUILD/brotli && cd $BUILD/brotli
-# export LDFLAGS="-static"
-# cmake  -DCMAKE_INSTALL_PREFIX=${PREBUILT} \
-#      -DBUILD_TESTING=off \
-#     $SOURCE/brotli || exit 1
-# make -j 8 || exit 1
-# make install
-# unset LDFLAGS
-
-########################
 # aom compile          #
 ########################
 if [ ! -e "${PREBUILT}/lib/pkgconfig/aom.pc" ]; then
@@ -349,28 +337,25 @@ fi
 ########################
 # freetype + harfbuzz  #
 ########################
-# mkdir -p $BUILD/freetype && cd $BUILD/freetype
-# meson setup --prefix=${PREBUILT} \
-#      --buildtype=release \
-#      --default-library=static \
-#      -Dharfbuzz=disabled \
-#      -Dbrotli=disabled \
-#      --wrap-mode=nofallback \
-#      $SOURCE/freetype  || exit 1
-#      
-# ninja || exit 1
-# meson install 
-# 
-# mkdir -p $BUILD/harfbuzz &&  cd $BUILD/harfbuzz
-# meson setup --prefix=${PREBUILT} \
-#     --buildtype=release \
-#     --default-library=static \
-#     -Dfreetype=enabled \
-#     -Dgdi=enabled \
-#     -Dtests=disabled \
-#     -Ddocs=disabled \
-#     --wrap-mode=nofallback \
-#     $SOURCE/harfbuzz  || exit 1
+ mkdir -p $BUILD/freetype && cd $BUILD/freetype
+ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+      -DFT_DISABLE_BROTLI=ON \
+      -DFT_DISABLE_HARFBUZZ=ON \
+      $SOURCE/freetype  || exit 1
+      
+ make -j 8 || exit 1
+ make install 
+ 
+ mkdir -p $BUILD/harfbuzz &&  cd $BUILD/harfbuzz
+ meson setup --prefix=${PREBUILT} \
+     --buildtype=release \
+     --default-library=static \
+     -Dfreetype=enabled \
+     -Dgdi=enabled \
+     -Dtests=disabled \
+     -Ddocs=disabled \
+     --wrap-mode=nofallback \
+     $SOURCE/harfbuzz  || exit 1
 # ninja || exit 1
 # meson install 
 # 
