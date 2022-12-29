@@ -3,28 +3,27 @@
 # turn the detached message off
 git config --global advice.detachedHead false
 
-#BASE="/Volumes/dev/ffmpeg"
-BASE="$HOME/dev/ffmpeg"
+BASE="/Volumes/dev/ffmpeg"
 SOURCE="${BASE}/sources"
 TOOLS="${BASE}/tools/bin"
 
-rm -rf ${SOURCE} 
-mkdir -p ${SOURCE} && cd ${SOURCE}
+if [ -d ${SOURCE} ]; then
+    rm -rf ${SOURCE}  && mkdir -p ${SOURCE}
+fi
+
+cd ${SOURCE}
 
 echo '◆◆' Start download cmake
 git clone https://github.com/Kitware/CMake.git cmake -b v3.25.1 --depth 1
-
 if [ $? -ne 0 ]; then
     exit
 fi
 
 echo '◆◆' Start download pkg-config
 git clone --depth 1 https://gitlab.freedesktop.org/pkg-config/pkg-config.git pkg-config
-
 if [ $? -ne 0 ]; then
     exit
 fi
-
 
 echo '◆◆' Start download nasm
 curl -# https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/nasm-2.16.01.tar.bz2 > nasm-2.16.01.tar.bz2 
@@ -214,3 +213,5 @@ git clone --depth 1 https://github.com/sekrit-twc/zimg.git -b release-3.0.4
 if [ $? -ne 0 ]; then
     exit
 fi
+
+echo 'download finish'
