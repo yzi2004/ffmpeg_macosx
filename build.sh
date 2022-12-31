@@ -11,12 +11,14 @@ export CC=clang
 export PKG_CONFIG_PATH="${PREBUILT}/lib/pkgconfig"
 
 rm -rf $BUILD
-if [ $1 == "rebuild*" ]; then
-    rm -rf $PREBUILT
-fi
+if [ $# >0 ] ; then
+   if [ "$1" == "rebuild*" ] ; then
+    	rm -rf $PREBUILT
+   fi
 
-if [ $1 == "rebuild_all" ]; then
-    rm -rf $TOOLS
+   if [ "$1" == "rebuild_all" ] ; then
+       rm -rf $TOOLS
+   fi
 fi
 
 ########################
@@ -344,26 +346,4 @@ fi
       $SOURCE/freetype  || exit 1
       
  make -j 8 || exit 1
- make install 
- 
- mkdir -p $BUILD/harfbuzz &&  cd $BUILD/harfbuzz
- meson setup --prefix=${PREBUILT} \
-     --buildtype=release \
-     --default-library=static \
-     -Dfreetype=enabled \
-     -Dgdi=enabled \
-     -Dtests=disabled \
-     -Ddocs=disabled \
-     --wrap-mode=nofallback \
-     $SOURCE/harfbuzz  || exit 1
-# ninja || exit 1
-# meson install 
-# 
-# mkdir -p $BUILD/freetype_with_harfbuzz &&  cd $BUILD/freetype_with_harfbuzz
-# meson setup --prefix=${PREBUILT} \
-#      --buildtype=release \
-#      --default-library=static \
-#      --wrap-mode=nofallback \
-#      $SOURCES_PATH/freetype  || exit 1
-# ninja || exit 1
-# meson install 
+ make install
