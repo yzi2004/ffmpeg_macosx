@@ -345,5 +345,5 @@ fi
       -DFT_DISABLE_HARFBUZZ=ON \
       $SOURCE/freetype  || exit 1
       
- make -j 8 || exit 1
- make install
+make -j 8 || exit 1
+make install
