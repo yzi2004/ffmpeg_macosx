@@ -395,3 +395,23 @@ $SOURCE/libass/autogen.sh --prefix=${PREBUILT} \
      --enable-static \
      --disable-shared
 make -j 8 && make install
+
+$SOURCE/ffmpeg/configure --prefix=${PREBUILT} \
+   --extra-cflags="-fno-stack-check" \
+   --arch=arm64 \
+   --cc=/usr/bin/clang \
+    --enable-libopenjpeg \
+    --enable-libmp3lame \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-libvpx \
+    --enable-libass \
+    --enable-libfreetype \
+    --enable-libaom \
+    --enable-gpl \
+   --enable-version3 \
+   --pkg-config-flags=--static \
+   --disable-ffplay \
+   --enable-postproc \
+   --enable-nonfree \
+   --enable-runtime-cpudetect
