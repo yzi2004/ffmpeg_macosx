@@ -152,20 +152,20 @@ if [ ! -e "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" ]; then
     make -j 8 || exit 1
     make install
 
-    cat << EOF > ${PREBUILT}/lib/pkgconfig/libmp3lame.pc 
-> prefix=${PREBUILT}
-> exec_prefix=\${prefix}
-> libdir=\${exec_prefix}/lib
-> includedir=\${prefix}/include
-> 
->  Name: libmp3lame
->  Description: lame mp3 encoder library
->  Version: 3.100
-> 
->  Requires:
->  Libs: -L\${libdir} -lmp3lame
->  Cflags: -I\${includedir}
->  EOF
+    cat << EOF > ${PREBUILT}/lib/pkgconfig/libmp3lame.pc
+prefix=${PREBUILT}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: libmp3lame
+Description: lame mp3 encoder library
+Version: 3.100
+
+Requires:
+Libs: -L\${libdir} -lmp3lame
+Cflags: -I\${includedir}
+EOF
 fi
 
 ########################
@@ -276,20 +276,20 @@ if [ ! -e "${PREBUILT}/lib/pkgconfig/libiconv.pc" ]; then
     make -j 8 || exit 1 
     make install
 
-   cat > "${PREBUILT}/lib/pkgconfig/libiconv.pc" << EOF
-   > prefix=${PREBUILT}
-   > exec_prefix=\${prefix}
-   > libdir=\${exec_prefix}/lib
-   > includedir=\${prefix}/include
-   > 
-   > Name: libiconv
-   > Description: Character set conversion library
-   > Version: 1.17
-   > 
-   > Requires:
-   > Libs: -L\${libdir} -liconv -lcharset
-   >  Cflags: -I\${includedir}
-   > EOF
+   cat << EOF > ${PREBUILT}/lib/pkgconfig/libiconv.pc
+prefix=${PREBUILT}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: libiconv
+Description: Character set conversion library
+Version: 1.17
+
+Requires:
+Libs: -L\${libdir} -liconv -lcharset
+ Cflags: -I\${includedir}
+EOF
 fi   
 
 ########################
