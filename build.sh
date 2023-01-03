@@ -152,20 +152,20 @@ if [ ! -e "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" ]; then
     make -j 8 || exit 1
     make install
 
-    cat > "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" << EOF
-    prefix=${PREBUILT}
-    exec_prefix=\${prefix}
-    libdir=\${exec_prefix}/lib
-    includedir=\${prefix}/include
+#    cat > "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" << EOF
+#    prefix=${PREBUILT}
+#    exec_prefix=\${prefix}
+#    libdir=\${exec_prefix}/lib
+#    includedir=\${prefix}/include
 
-    Name: libmp3lame
-    Description: lame mp3 encoder library
-    Version: 3.100
+ #   Name: libmp3lame
+ #   Description: lame mp3 encoder library
+ #   Version: 3.100
 
-    Requires:
-    Libs: -L\${libdir} -lmp3lame
-    Cflags: -I\${includedir}
-    EOF
+ #   Requires:
+ #   Libs: -L\${libdir} -lmp3lame
+ #   Cflags: -I\${includedir}
+ #   EOF
 fi
 
 ########################
@@ -276,23 +276,21 @@ if [ ! -e "${PREBUILT}/lib/pkgconfig/libiconv.pc" ]; then
     make -j 8 || exit 1 
     make install
 
-    cat > "${PREBUILT}/lib/pkgconfig/libiconv.pc" << EOF
-    prefix=${PREBUILT}
-    exec_prefix=\${prefix}
-    libdir=\${exec_prefix}/lib
-    includedir=\${prefix}/include
+#    cat > "${PREBUILT}/lib/pkgconfig/libiconv.pc" << EOF
+#    prefix=${PREBUILT}
+#    exec_prefix=\${prefix}
+#    libdir=\${exec_prefix}/lib
+#    includedir=\${prefix}/include
 
-    Name: libiconv
-    Description: Character set conversion library
-    Version: 1.17
+#    Name: libiconv
+#   Description: Character set conversion library
+#    Version: 1.17
 
-    Requires:
-    Libs: -L\${libdir} -liconv -lcharset
-    Cflags: -I\${includedir}
-    EOF
+ #   Requires:
+ #   Libs: -L\${libdir} -liconv -lcharset
+ #   Cflags: -I\${includedir}
+ #   EOF
 fi   
-   
-   
 
 ########################
 # enca compile     #
@@ -347,3 +345,53 @@ fi
       
 make -j 8 || exit 1
 make install
+
+mkdir -p $BUILD/harfbuzz && cd $BUILD/harfbuzz
+ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+      -DHB_HAVE_FREETYPE=ON \
+      -DHB_HAVE_CORETEXT=ON \
+      $SOURCE/harfbuzz  || exit 1
+      
+make -j 8 || exit 1
+make install
+
+ mkdir -p $BUILD/freetype_with_harfbuzz && cd $BUILD/freetype_with_harfbuzz
+ cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+      -DFT_DISABLE_BROTLI=ON \
+      -DFT_REQUIRE_HARFBUZZ=TRUE \
+      $SOURCE/freetype  || exit 1
+      
+make -j 8 || exit 1
+make install
+
+mkdir -p $BUILD_PATH/fribidi &&  cd $BUILD_PATH/fribidi
+meson setup --prefix=${PREBUILT} \
+    --buildtype=release \
+    --default-library=static \
+    -Ddocs=false \
+    -Dbin=false \
+    -Dtests=false \
+    --wrap-mode=nofallback \
+     $SOURCE/fribidi  || exit 1
+ninja || exit 1
+meson install 
+
+mkdir -p $BUILD/fontconfig &&  cd $BUILD/fontconfig
+meson setup --prefix=${PREBUILT} \
+     --buildtype=release \
+     --default-library=static \
+     -Ddoc=disabled \
+     -Dtests=disabled \
+     -Dtools=disabled \
+     --wrap-mode=nofallback \
+     $SOURCE/fontconfig 
+ninja && meson install 
+
+################
+# libass compile
+################
+mkdir -p $BUILD/libass &&  cd $BUILD/libass
+$SOURCE/libass/autogen.sh --prefix=${PREBUILT} \
+     --enable-static \
+     --disable-shared
+make -j 8 && make install
