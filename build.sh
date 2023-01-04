@@ -384,8 +384,9 @@ meson setup --prefix=${PREBUILT} \
      -Dtests=disabled \
      -Dtools=disabled \
      --wrap-mode=nofallback \
-     $SOURCE/fontconfig 
-ninja && meson install 
+     $SOURCE/fontconfig  || exit 1
+ninja || exit 1
+meson install 
 
 ################
 # libass compile
@@ -393,25 +394,28 @@ ninja && meson install
 mkdir -p $BUILD/libass &&  cd $BUILD/libass
 $SOURCE/libass/autogen.sh --prefix=${PREBUILT} \
      --enable-static \
-     --disable-shared
-make -j 8 && make install
+     --disable-shared || exit 1
+make -j 8 || exit 1
+make install
 
-$SOURCE/ffmpeg/configure --prefix=${PREBUILT} \
+$SOURCE/ffmpeg/configure --prefix=${BASE}/dist \
    --extra-cflags="-fno-stack-check" \
    --arch=arm64 \
    --cc=/usr/bin/clang \
-    --enable-libopenjpeg \
-    --enable-libmp3lame \
-    --enable-libx264 \
-    --enable-libx265 \
-    --enable-libvpx \
-    --enable-libass \
-    --enable-libfreetype \
-    --enable-libaom \
-    --enable-gpl \
+   --enable-libmp3lame \
+   --enable-libx264 \
+   --enable-libx265 \
+   --enable-libvpx \
+   --enable-libass \
+   --enable-libfreetype \
+   --enable-libaom \
+   --enable-gpl \
    --enable-version3 \
    --pkg-config-flags=--static \
    --disable-ffplay \
    --enable-postproc \
    --enable-nonfree \
-   --enable-runtime-cpudetect
+   --enable-runtime-cpudetect || exit 1
+   
+make -j 8 || exit 1
+make install
