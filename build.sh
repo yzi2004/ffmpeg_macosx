@@ -5,10 +5,15 @@ SOURCE="${BASE}/sources"
 BUILD="${BASE}/build"
 TOOLS="${BASE}/tools"
 PREBUILT="${BASE}/prebuilt"
+DEST="${BASE}/dest"
 
 export PATH=${TOOLS}/bin:$PATH
 export CC=clang 
 export PKG_CONFIG_PATH="${PREBUILT}/lib/pkgconfig"
+
+if [ -d $DEST ]; then
+   mkdir -p $DEST
+fi
 
 rm -rf $BUILD
 if [ $# >0 ] ; then
@@ -397,6 +402,8 @@ $SOURCE/libass/autogen.sh --prefix=${PREBUILT} \
      --disable-shared || exit 1
 make -j 8 || exit 1
 make install
+
+
 
 $SOURCE/ffmpeg/configure --prefix=${BASE}/dist \
    --extra-cflags="-fno-stack-check" \
