@@ -342,32 +342,34 @@ fi
 ########################
 # freetype + harfbuzz  #
 ########################
- mkdir -p $BUILD/freetype && cd $BUILD/freetype
- cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+if [ ! -e "${PREBUILT}/lib/pkgconfig/freetype2.pc" ]; then
+   mkdir -p $BUILD/freetype && cd $BUILD/freetype
+   cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DFT_DISABLE_BROTLI=ON \
       -DFT_DISABLE_HARFBUZZ=ON \
       $SOURCE/freetype  || exit 1
-      
-make -j 8 || exit 1
-make install
 
-mkdir -p $BUILD/harfbuzz && cd $BUILD/harfbuzz
- cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+   make -j 8 || exit 1
+   make install
+
+   mkdir -p $BUILD/harfbuzz && cd $BUILD/harfbuzz
+   cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DHB_HAVE_FREETYPE=ON \
       -DHB_HAVE_CORETEXT=ON \
       $SOURCE/harfbuzz  || exit 1
-      
-make -j 8 || exit 1
-make install
 
- mkdir -p $BUILD/freetype_with_harfbuzz && cd $BUILD/freetype_with_harfbuzz
- cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
+   make -j 8 || exit 1
+   make install
+
+   mkdir -p $BUILD/freetype_with_harfbuzz && cd $BUILD/freetype_with_harfbuzz
+   cmake  -DCMAKE_INSTALL_PREFIX:PATH=${PREBUILT} \
       -DFT_DISABLE_BROTLI=ON \
       -DFT_REQUIRE_HARFBUZZ=TRUE \
       $SOURCE/freetype  || exit 1
-      
-make -j 8 || exit 1
-make install
+
+   make -j 8 || exit 1
+   make install
+fi
 
 ########################
 # fribidi              #
@@ -406,16 +408,22 @@ fi
 ################
 # libass compile
 ################
+if [ ! -e "${PREBUILT}/lib/pkgconfig/libass.pc" ]; then
+   cd $SOURCE/libass
+   ./autogen.sh
 
-cd $SOURCE/libass
-./autogen.sh
+   mkdir -p $BUILD/libass &&  cd $BUILD/libass
+   $SOURCE/libass/configure --prefix=${PREBUILT} \
+        --enable-static \
+        --disable-shared || exit 1
+   make -j 8 || exit 1
+   make install
+fi
 
-mkdir -p $BUILD/libass &&  cd $BUILD/libass
-$SOURCE/libass/configure --prefix=${PREBUILT} \
-     --enable-static \
-     --disable-shared || exit 1
-make -j 8 || exit 1
-make install
+################
+# ffmpeg compile
+################
+mkdir -p $BUILD/ffmpeg &&  cd $BUILD/ffmpeg
 
 $SOURCE/ffmpeg/configure --prefix=${BASE}/dist \
    --extra-cflags="-fno-stack-check" \
