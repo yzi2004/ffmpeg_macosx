@@ -369,41 +369,53 @@ make install
 make -j 8 || exit 1
 make install
 
-mkdir -p $BUILD_PATH/fribidi &&  cd $BUILD_PATH/fribidi
-meson setup --prefix=${PREBUILT} \
-    --buildtype=release \
-    --default-library=static \
-    -Ddocs=false \
-    -Dbin=false \
-    -Dtests=false \
-    --wrap-mode=nofallback \
-     $SOURCE/fribidi  || exit 1
-ninja || exit 1
-meson install 
+########################
+# fribidi              #
+########################
+if [ ! -e "${PREBUILT}/lib/pkgconfig/fribidi.pc" ]; then
+   mkdir -p $BUILD_PATH/fribidi &&  cd $BUILD_PATH/fribidi
+   meson setup --prefix=${PREBUILT} \
+       --buildtype=release \
+       --default-library=static \
+       -Ddocs=false \
+       -Dbin=false \
+       -Dtests=false \
+       --wrap-mode=nofallback \
+        $SOURCE/fribidi  || exit 1
+   ninja || exit 1
+   meson install
+fi
 
-mkdir -p $BUILD/fontconfig &&  cd $BUILD/fontconfig
-meson setup --prefix=${PREBUILT} \
-     --buildtype=release \
-     --default-library=static \
-     -Ddoc=disabled \
-     -Dtests=disabled \
-     -Dtools=disabled \
-     --wrap-mode=nofallback \
-     $SOURCE/fontconfig  || exit 1
-ninja || exit 1
-meson install 
+########################
+# fontconfig           #
+########################
+if [ ! -e "${PREBUILT}/lib/pkgconfig/fontconfig.pc" ]; then
+   mkdir -p $BUILD/fontconfig &&  cd $BUILD/fontconfig
+   meson setup --prefix=${PREBUILT} \
+        --buildtype=release \
+        --default-library=static \
+        -Ddoc=disabled \
+        -Dtests=disabled \
+        -Dtools=disabled \
+        --wrap-mode=nofallback \
+        $SOURCE/fontconfig  || exit 1
+   ninja || exit 1
+   meson install 
+fi
 
 ################
 # libass compile
 ################
+
+cd $SOURCE/libass
+./autogen.sh
+
 mkdir -p $BUILD/libass &&  cd $BUILD/libass
-$SOURCE/libass/autogen.sh --prefix=${PREBUILT} \
+$SOURCE/libass/configure --prefix=${PREBUILT} \
      --enable-static \
      --disable-shared || exit 1
 make -j 8 || exit 1
 make install
-
-
 
 $SOURCE/ffmpeg/configure --prefix=${BASE}/dist \
    --extra-cflags="-fno-stack-check" \
