@@ -5,7 +5,7 @@ SOURCE="${BASE}/sources"
 BUILD="${BASE}/build"
 TOOLS="${BASE}/tools"
 PREBUILT="${BASE}/prebuilt"
-DEST="${BASE}/dest"
+DIST="${BASE}/dist"
 
 export PATH=${TOOLS}/bin:$PATH
 export CC=clang 
@@ -153,6 +153,8 @@ if [ ! -e "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" ]; then
     mkdir -p $BUILD/mp3lame && cd $BUILD/mp3lame
     $SOURCE/mp3lame/configure --prefix=$PREBUILT \
         --disable-shared \
+        --disable-frontend \
+        --enable-nasm \
         --enable-static || exit 1
     make -j 8 || exit 1
     make install
