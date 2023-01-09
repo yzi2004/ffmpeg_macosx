@@ -171,7 +171,7 @@ Version: 3.100
 
 Requires:
 Libs: -L\${libdir} -lmp3lame
-Cflags: -I\${includedir}
+Cflags: -I\${includedir}/lame
 EOF
 fi
 
