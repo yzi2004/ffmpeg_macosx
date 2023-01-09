@@ -27,3 +27,24 @@ cat << EOF > libmp3lame.pc
   Libs: -L\${libdir} -lmp3lame
   Cflags: -I\${includedir}
 EOF
+
+
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = lame.pc
+
+DISTCLEANFILES = $(pkgconfig_DATA)
+
+
+lame.pc.in
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE_NAME@
+Description: high quality MPEG Audio Layer III (MP3) encoder library
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -lmp3lame
+Cflags: -I${includedir}/lame
