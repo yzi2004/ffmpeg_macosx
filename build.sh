@@ -159,7 +159,7 @@ if [ ! -e "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" ]; then
     make -j 8 || exit 1
     make install
 
-    cat << EOF > ${PREBUILT}/lib/pkgconfig/libmp3lame.pc
+    cat << EOF > ${PREBUILT}/lib/pkgconfig/lame.pc
 prefix=${PREBUILT}
 exec_prefix=\${prefix}
 libdir=\${exec_prefix}/lib
