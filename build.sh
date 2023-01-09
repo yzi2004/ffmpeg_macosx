@@ -15,13 +15,13 @@ if [ -d $DIST ]; then
    mkdir -p $DIST
 fi
 
-if [ $# >0 ] ; then
-   if [ "$1" == "rebuild*" ] ; then
+if [ $# > 0 ]; then
+   if [ "$1" == "rebuild*" ]; then
       rm -rf $BUILD
     	rm -rf $PREBUILT
    fi
 
-   if [ "$1" == "rebuild_all" ] ; then
+   if [ "$1" == "rebuild_all" ]; then
        rm -rf $TOOLS
    fi
 fi
