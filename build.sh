@@ -11,13 +11,13 @@ export PATH=${TOOLS}/bin:$PATH
 export CC=clang 
 export PKG_CONFIG_PATH="${PREBUILT}/lib/pkgconfig"
 
-if [ -d $DEST ]; then
-   mkdir -p $DEST
+if [ -d $DIST ]; then
+   mkdir -p $DIST
 fi
 
-rm -rf $BUILD
 if [ $# >0 ] ; then
    if [ "$1" == "rebuild*" ] ; then
+      rm -rf $BUILD
     	rm -rf $PREBUILT
    fi
 
@@ -149,7 +149,7 @@ fi
 ########################
 # mp3lame compile      #
 ########################
-if [ ! -e "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" ]; then
+if [ ! -e "${PREBUILT}/lib/pkgconfig/lame.pc" ]; then
     mkdir -p $BUILD/mp3lame && cd $BUILD/mp3lame
     $SOURCE/mp3lame/configure --prefix=$PREBUILT \
         --disable-shared \
@@ -159,20 +159,20 @@ if [ ! -e "${PREBUILT}/lib/pkgconfig/libmp3lame.pc" ]; then
     make -j 8 || exit 1
     make install
 
-    cat << EOF > ${PREBUILT}/lib/pkgconfig/lame.pc
-prefix=${PREBUILT}
-exec_prefix=\${prefix}
-libdir=\${exec_prefix}/lib
-includedir=\${prefix}/include
-
-Name: libmp3lame
-Description: lame mp3 encoder library
-Version: 3.100
-
-Requires:
-Libs: -L\${libdir} -lmp3lame
-Cflags: -I\${includedir}/lame
-EOF
+#    cat << EOF > ${PREBUILT}/lib/pkgconfig/lame.pc
+#prefix=${PREBUILT}
+#exec_prefix=\${prefix}
+#libdir=\${exec_prefix}/lib
+#includedir=\${prefix}/include
+#
+#Name: libmp3lame
+#Description: lame mp3 encoder library
+#Version: 3.100
+#
+#Requires:
+#Libs: -L\${libdir} -lmp3lame
+#Cflags: -I\${includedir}/lame
+#EOF
 fi
 
 ########################
