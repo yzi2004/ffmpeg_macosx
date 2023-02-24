@@ -3,7 +3,7 @@
 # turn the detached message off
 git config --global advice.detachedHead false
 
-BASE="/Volumes/dev/ffmpeg"
+BASE="~/dev/ffmpeg"
 SOURCE="${BASE}/sources"
 
 if [ -d $SOURCE ]; then
