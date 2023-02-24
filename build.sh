@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE="/Volumes/dev/ffmpeg"
+BASE="~/dev/ffmpeg"
 SOURCE="${BASE}/sources"
 BUILD="${BASE}/build"
 TOOLS="${BASE}/tools"
