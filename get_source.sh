@@ -94,7 +94,7 @@ fi
 tar zxf lame-3.100.tar.gz && mv lame-3.100 mp3lame && rm lame-3.100.tar.gz  || exit 1
 
 echo '◆◆' Start download x264
-git clone --depth 1 https://code.videolan.org/videolan/x264.git  || exit 1
+git clone --depth 1 https://github.com/mirror/x264.git  || exit 1
 
 echo '◆◆' Start download x265
 git clone https://bitbucket.org/multicoreware/x265_git.git x265 -b Release_3.4  || exit 1
